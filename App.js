@@ -7,13 +7,13 @@ import * as Progress from 'react-native-progress';
 import { getData, storeData } from './src/cityStorage';
 
 const App = () => {
+
   const [showSearch, setShowSearch] = useState(false)
   const [locations, setLocation] = useState([])
   const [weather, setWeather] = useState({})
   const [loading, setLoading] = useState(true)
 
   const { current, location } = weather
-
 
 
   // trang thai ban phim
@@ -99,9 +99,10 @@ const App = () => {
           flex: 1,
         }}
         source={require('./src/images/bg.png')}>
-        {console.log('haha')}
         {
           loading ? (
+
+            // hiệu ứng loading
             <View style={{
               flex: 1,
               justifyContent: 'center',
