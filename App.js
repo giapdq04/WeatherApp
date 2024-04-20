@@ -56,13 +56,13 @@ const App = () => {
       .then(data => {
         setWeather(data)
         setLoading(false)
-        console.log('Data', data);
+        // console.log('Data', data);
       })
   }
 
   //xử lý chọn địa điểm
   const handleLocation = (loc) => {
-    console.log('Location', loc);
+    // console.log('Location', loc);
     setLocation([])
     setShowSearch(false)
     setLoading(true)
@@ -144,8 +144,11 @@ const App = () => {
                   <View style={{
                     flex: 1
                   }}>
+
                     <Image
-                      source={weatherImages[current?.condition?.text] || weatherImages['other']}
+                      source={weatherImages[current?.condition?.text.trim().toLowerCase()] || weatherImages['other']}
+                      // source={{ uri: 'https:' + current?.condition?.icon }}
+
                       style={{
                         width: 200,
                         height: 200,
@@ -301,7 +304,7 @@ const App = () => {
                               alignItems: 'center'
                             }}>
                             <Image
-                              source={weatherImages[item?.day?.condition?.text] || weatherImages['other']}
+                              source={weatherImages[item?.day?.condition?.text.trim().toLowerCase()] || weatherImages['other']}
                               style={{
                                 width: 50,
                                 height: 50
