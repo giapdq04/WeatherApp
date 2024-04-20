@@ -99,7 +99,7 @@ const App = () => {
           flex: 1,
         }}
         source={require('./src/images/bg.png')}>
-
+        {console.log('haha')}
         {
           loading ? (
             <View style={{
