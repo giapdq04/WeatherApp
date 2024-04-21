@@ -17,6 +17,7 @@ export const weatherImages = {
     'mist': require('./mist.png'),
     'light drizzle': require('./lightdrizzle.png'),
     'thundery outbreaks in nearby': require('./thunderyoutbreaksinnearby.png'),
+    'light rain shower': require('./lightrain.png'),
 
     'other': { uri: 'https://cdn-icons-png.flaticon.com/512/252/252035.png' }
 }
