@@ -1,10 +1,11 @@
-import { Image, ImageBackground, Keyboard, KeyboardAvoidingView, ScrollView, StatusBar, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, View } from 'react-native'
+import { Image, ImageBackground, Keyboard, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import { fetchLocations, fetchWeatherForecast } from './src/api/weather';
 import { weatherImages } from './src/images/WeatherImage';
 import * as Progress from 'react-native-progress';
 import { getData, storeData } from './src/cityStorage';
+import { ConditionTranslate } from './src/translate/condition';
 
 const App = () => {
 
@@ -176,7 +177,7 @@ const App = () => {
                       color: 'white',
                       fontSize: 30,
                     }}>
-                      {current?.condition?.text}
+                      {ConditionTranslate[current?.condition?.text.trim().toLowerCase()] || current?.condition?.text}
                     </Text>
                   </View>
 
