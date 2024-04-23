@@ -20,6 +20,7 @@ const App = () => {
   // trang thai ban phim
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
+
   // sự kiện bàn phím bật lên
   useEffect(() => {
 
@@ -116,225 +117,484 @@ const App = () => {
               style={{
                 flex: 1
               }}>
+              <ScrollView>
 
-              {!isKeyboardVisible && (
-                <View
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flex: 1,
-                  }}>
-                  <View style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}>
-                    <Text style={{
-                      color: 'white',
-                      fontSize: 30,
-                      fontWeight: 'bold',
+                {/* Phần dự báo thời tiết */}
+                {!isKeyboardVisible && (
+                  <View
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      flex: 1,
                     }}>
-                      {location?.name}
+                    <View style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      height: 150,
+                    }}>
                       <Text style={{
-                        color: 'rgba(255, 255, 255, 0.5)',
-                        fontSize: 20,
-                      }}>, {location?.country}</Text>
-                    </Text>
-                  </View>
+                        color: 'white',
+                        fontSize: 30,
+                        fontWeight: 'bold',
+                      }}>
+                        {location?.name}
+                        <Text style={{
+                          color: 'rgba(255, 255, 255, 0.5)',
+                          fontSize: 20,
+                        }}>, {location?.country}</Text>
+                      </Text>
+                    </View>
 
-                  {/* Ảnh thời tiết */}
+                    {/* Ảnh thời tiết */}
+                    <View style={{
+                      height: 200,
+                    }}>
+
+                      <Image
+                        source={weatherImages[current?.condition?.text.trim().toLowerCase()] || weatherImages['other']}
+                        // source={{ uri: 'https:' + current?.condition?.icon }}
+
+                        style={{
+                          width: 200,
+                          height: 200,
+                          resizeMode: 'contain'
+                        }}
+                      />
+                    </View>
+
+                    {/* Nhiệt độ */}
+                    <View style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      height: 150,
+                    }}>
+                      <Text style={{
+                        color: 'white',
+                        fontSize: 60,
+                        fontWeight: 'bold',
+                      }}>
+                        {current?.temp_c}&#176;
+                      </Text>
+
+                      <Text style={{
+                        color: 'white',
+                        fontSize: 20
+                      }}>
+                        {weather?.forecast?.forecastday[0]?.day?.maxtemp_c}&#176; / {weather?.forecast?.forecastday[0]?.day?.mintemp_c}&#176;
+                        Cảm giác {current?.feelslike_c}&#176;
+                      </Text>
+
+                      <Text style={{
+                        color: 'white',
+                        fontSize: 30,
+                      }}>
+                        {ConditionTranslate[current?.condition?.text.trim().toLowerCase()] || current?.condition?.text}
+                      </Text>
+                    </View>
+
+                    {/* Các chỉ số khác */}
+                    <View style={{
+                      flexDirection: 'row',
+                      height: 80,
+                      width: '90%',
+                    }}>
+                      <View style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}>
+                        <Image
+                          source={require('./src/images/wind.png')}
+                          style={{
+                            width: 30,
+                            height: 30,
+                          }}
+                        />
+                        <Text style={{
+                          color: 'white',
+                          fontSize: 18,
+                          paddingLeft: 10
+                        }}>
+                          {current?.wind_kph} km/h
+                        </Text>
+                      </View>
+
+                      <View style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}>
+                        <Image
+                          source={require('./src/images/drop.png')}
+                          style={{
+                            width: 30,
+                            height: 30,
+                          }}
+                        />
+                        <Text style={{
+                          color: 'white',
+                          fontSize: 18,
+                          paddingLeft: 10
+                        }}>
+                          {current?.humidity}%
+                        </Text>
+                      </View>
+
+                      <View style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}>
+                        <Image
+                          source={require('./src/images/sunny.png')}
+                          style={{
+                            width: 30,
+                            height: 30,
+                          }}
+                        />
+                        <Text style={{
+                          color: 'white',
+                          fontSize: 18,
+                          paddingLeft: 10
+                        }}>
+                          {current?.uv} UV {current?.uv >= 11 ? 'Gắt' : (current?.uv >= 8 ? 'Rất Cao' : (current?.uv >= 6 ? 'Cao' : (current?.uv >= 3 ? 'Trung Bình' : 'Thấp')))}
+                        </Text>
+                      </View>
+                    </View>
+
+                    {/* Các chỉ số mặt trời lặn và mọc */}
+                    <View style={{
+                      height: 80,
+                      flexDirection: 'row',
+                    }}>
+
+                      <View style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}>
+                        <Image
+                          source={require('./src/icons/sun.png')}
+                          style={{
+                            width: 30,
+                            height: 30,
+                          }}
+                        />
+                        <Text style={{
+                          color: 'white',
+                          fontSize: 18,
+                          paddingLeft: 10
+                        }}>
+                          {weather?.forecast?.forecastday[0]?.astro?.sunrise}
+                        </Text>
+                      </View>
+
+                      <View style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}>
+                        <Image
+                          source={require('./src/icons/sunset.png')}
+                          style={{
+                            width: 40,
+                            height: 40,
+                          }}
+                        />
+                        <Text style={{
+                          color: 'white',
+                          fontSize: 18,
+                          paddingLeft: 10
+                        }}>
+                          {weather?.forecast?.forecastday[0]?.astro?.sunset}
+                        </Text>
+                      </View>
+                    </View>
+
+
+
+                  </View>
+                )}
+
+                {/* Dự báo những giờ tiếp theo */}
+                {!isKeyboardVisible && (
                   <View style={{
-                    flex: 1
+                    width: '90%',
+                    alignSelf: 'center',
+                    marginBottom: 20
                   }}>
 
-                    <Image
-                      source={weatherImages[current?.condition?.text.trim().toLowerCase()] || weatherImages['other']}
-                      // source={{ uri: 'https:' + current?.condition?.icon }}
+                    <View style={{
+                      flexDirection: 'row'
+                    }}>
+                      <FontAwesome6 name='clock' size={20} color='white' />
+                      <Text style={{
+                        color: 'white',
+                        fontSize: 18,
+                        paddingLeft: 10
 
-                      style={{
-                        width: 200,
-                        height: 200,
-                        resizeMode: 'contain'
+                      }}>
+                        Những giờ tiếp theo
+                      </Text>
+                    </View>
+                    <ScrollView
+                      horizontal
+                      contentContainerStyle={{
+                        paddingHorizontal: 15,
+                        paddingVertical: 10,
                       }}
-                    />
-                  </View>
+                      showsHorizontalScrollIndicator={false}
+                    >
 
-                  {/* Nhiệt độ */}
-                  <View style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}>
-                    <Text style={{
-                      color: 'white',
-                      fontSize: 60,
-                      fontWeight: 'bold',
-                    }}>
-                      {current?.temp_c}&#176;
-                    </Text>
+                      {
+                        weather?.forecast?.forecastday[0]?.hour.map((item, index) => {
 
-                    <Text style={{
-                      color: 'white',
-                      fontSize: 30,
-                    }}>
-                      {ConditionTranslate[current?.condition?.text.trim().toLowerCase()] || current?.condition?.text}
-                    </Text>
-                  </View>
-
-                  {/* Các chỉ số khác */}
-                  <View style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                  }}>
-                    <View style={{
-                      flex: 1,
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}>
-                      <Image
-                        source={require('./src/images/wind.png')}
-                        style={{
-                          width: 30,
-                          height: 30,
-                        }}
-                      />
-                      <Text style={{
-                        color: 'white',
-                        fontSize: 18,
-                        paddingLeft: 10
-                      }}>
-                        {current?.wind_kph} km/h
-                      </Text>
-                    </View>
-
-                    <View style={{
-                      flex: 1,
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}>
-                      <Image
-                        source={require('./src/images/drop.png')}
-                        style={{
-                          width: 30,
-                          height: 30,
-                        }}
-                      />
-                      <Text style={{
-                        color: 'white',
-                        fontSize: 18,
-                        paddingLeft: 10
-                      }}>
-                        {current?.humidity}%
-                      </Text>
-                    </View>
-
-                    <View style={{
-                      flex: 1,
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}>
-                      <Image
-                        source={require('./src/icons/sun.png')}
-                        style={{
-                          width: 30,
-                          height: 30,
-                        }}
-                      />
-                      <Text style={{
-                        color: 'white',
-                        fontSize: 18,
-                        paddingLeft: 10
-                      }}>
-                        {weather?.forecast?.forecastday[0]?.astro?.sunrise}
-                      </Text>
-                    </View>
-                  </View>
-
-
-
-                </View>
-              )}
-              {/* Phần dự báo thời tiết */}
-
-
-              {/* Dự báo những ngày tiếp theo */}
-              {!isKeyboardVisible && (
-                <View style={{
-                  width: '90%',
-                  alignSelf: 'center',
-                  marginBottom: 20
-                }}>
-
-                  <View style={{
-                    flexDirection: 'row'
-                  }}>
-                    <FontAwesome6 name='calendar-days' size={20} color='white' />
-                    <Text style={{
-                      color: 'white',
-                      fontSize: 18,
-                      paddingLeft: 10
-
-                    }}>
-                      Những ngày tiếp theo
-                    </Text>
-                  </View>
-                  <ScrollView
-                    horizontal
-                    contentContainerStyle={{
-                      paddingHorizontal: 15,
-                      paddingVertical: 10,
-                    }}
-                    showsHorizontalScrollIndicator={false}
-                  >
-
-                    {
-                      weather?.forecast?.forecastday?.map((item, index) => {
-                        let date = new Date(item?.date)
-                        let options = { weekday: 'long' }
-                        let dayName = date.toLocaleDateString('vi-VN', options)
-                        return (
-                          <View
-                            key={index}
-                            style={{
-                              backgroundColor: 'rgba(110, 131, 133,0.5)',
-                              padding: 20,
-                              borderRadius: 30,
-                              marginRight: 10,
-                              alignItems: 'center'
-                            }}>
-                            <Image
-                              source={weatherImages[item?.day?.condition?.text.trim().toLowerCase()] || weatherImages['other']}
+                          let time = item?.time.slice(11, 13)
+                          let ampm = parseInt(time) >= 12 ? ' PM' : ' AM'
+                          let hour = parseInt(time) > 12 ? parseInt(time) - 12 : parseInt(time)
+                          return (
+                            <View
+                              key={index}
                               style={{
-                                width: 50,
-                                height: 50
-                              }}
-                            />
-                            <Text style={{
-                              color: 'white',
-                              fontSize: 18,
-                              textAlign: 'center'
-                            }}>
-                              {dayName}
-                            </Text>
-                            <Text style={{
-                              color: 'white',
-                              fontSize: 18,
-                              textAlign: 'center'
-                            }}>
-                              {item?.day?.avgtemp_c}&#176;
-                            </Text>
-                          </View>
-                        )
-                      })
-                    }
+                                backgroundColor: 'rgba(110, 131, 133,0.5)',
+                                borderRadius: 30,
+                                marginRight: 10,
+                                alignItems: 'center',
+                                justifyContent: 'space-evenly',
+                                height: 150,
+                                width: 120
+                              }}>
+                              <Image
+                                source={weatherImages[item?.condition?.text.trim().toLowerCase()] || weatherImages['other']}
+                                style={{
+                                  width: 50,
+                                  height: 50,
+                                  resizeMode: 'contain'
+                                }}
+                              />
+                              <Text style={{
+                                color: 'white',
+                                fontSize: 18,
+                                textAlign: 'center'
+                              }}>
+                                {hour}:00 {ampm}
+
+                              </Text>
+                              <Text style={{
+                                color: 'white',
+                                fontSize: 18,
+                                textAlign: 'center'
+                              }}>
+                                {item?.temp_c}&#176;
+                              </Text>
+                              <View style={{
+                                flexDirection: 'row',
+                              }}>
+
+                                <Image
+                                  source={require('./src/icons/drop.png')}
+                                  style={{
+                                    width: 20,
+                                    height: 20,
+                                  }}
+                                />
+
+                                <Text style={{
+                                  color: 'white',
+                                  fontSize: 18,
+                                  textAlign: 'center'
+                                }}>
+                                  {item?.humidity}%
+                                </Text>
+                              </View>
+
+                            </View>
+                          )
+                        })
+                      }
+
+                      {/* {
+                        weather?.forecast?.forecastday?.map((item, index) => {
+                          let date = new Date(item?.date)
+                          let options = { weekday: 'long' }
+                          let dayName = date.toLocaleDateString('vi-VN', options)
+                          return (
+                            <View
+                              key={index}
+                              style={{
+                                backgroundColor: 'rgba(110, 131, 133,0.5)',
+                                borderRadius: 30,
+                                marginRight: 10,
+                                alignItems: 'center',
+                                justifyContent: 'space-evenly',
+                                height: 150,
+                                width: 120
+                              }}>
+                              <Image
+                                source={weatherImages[item?.hour[0]?.condition?.text.trim().toLowerCase()] || weatherImages['other']}
+                                style={{
+                                  width: 50,
+                                  height: 50,
+                                  resizeMode: 'contain'
+                                }}
+                              />
+                              <Text style={{
+                                color: 'white',
+                                fontSize: 18,
+                                textAlign: 'center'
+                              }}>
+                                {dayName}
+                              </Text>
+                              <Text style={{
+                                color: 'white',
+                                fontSize: 18,
+                                textAlign: 'center'
+                              }}>
+                                {item?.day?.maxtemp_c}&#176;/{item?.day?.mintemp_c}&#176;
+                              </Text>
+                              <View style={{
+                                flexDirection: 'row',
+                              }}>
+
+                                <Image
+                                  source={require('./src/icons/drop.png')}
+                                  style={{
+                                    width: 20,
+                                    height: 20,
+                                  }}
+                                />
+
+                                <Text style={{
+                                  color: 'white',
+                                  fontSize: 18,
+                                  textAlign: 'center'
+                                }}>
+                                  {item?.day?.avghumidity}%
+                                </Text>
+                              </View>
+
+                            </View>
+                          )
+                        })
+                      } */}
 
 
-                  </ScrollView>
-                </View>
-              )}
+                    </ScrollView>
+                  </View>
+                )}
+
+
+                {/* Dự báo những ngày tiếp theo */}
+                {!isKeyboardVisible && (
+                  <View style={{
+                    width: '90%',
+                    alignSelf: 'center',
+                    marginBottom: 20
+                  }}>
+
+                    <View style={{
+                      flexDirection: 'row'
+                    }}>
+                      <FontAwesome6 name='calendar-days' size={20} color='white' />
+                      <Text style={{
+                        color: 'white',
+                        fontSize: 18,
+                        paddingLeft: 10
+
+                      }}>
+                        Những ngày tiếp theo
+                      </Text>
+                    </View>
+                    <ScrollView
+                      horizontal
+                      contentContainerStyle={{
+                        paddingHorizontal: 15,
+                        paddingVertical: 10,
+                      }}
+                      showsHorizontalScrollIndicator={false}
+                    >
+
+                      {
+                        weather?.forecast?.forecastday?.map((item, index) => {
+                          let date = new Date(item?.date)
+                          let options = { weekday: 'long' }
+                          let dayName = date.toLocaleDateString('vi-VN', options)
+                          return (
+                            <View
+                              key={index}
+                              style={{
+                                backgroundColor: 'rgba(110, 131, 133,0.5)',
+                                borderRadius: 30,
+                                marginRight: 10,
+                                alignItems: 'center',
+                                justifyContent: 'space-evenly',
+                                height: 150,
+                                width: 120
+                              }}>
+                              <Image
+                                source={weatherImages[item?.day?.condition?.text.trim().toLowerCase()] || weatherImages['other']}
+                                style={{
+                                  width: 50,
+                                  height: 50
+                                }}
+                              />
+                              <Text style={{
+                                color: 'white',
+                                fontSize: 18,
+                                textAlign: 'center'
+                              }}>
+                                {dayName}
+                              </Text>
+                              <Text style={{
+                                color: 'white',
+                                fontSize: 18,
+                                textAlign: 'center'
+                              }}>
+                                {item?.day?.maxtemp_c}&#176;/{item?.day?.mintemp_c}&#176;
+                              </Text>
+                              <View style={{
+                                flexDirection: 'row',
+                              }}>
+
+                                <Image
+                                  source={require('./src/icons/drop.png')}
+                                  style={{
+                                    width: 20,
+                                    height: 20,
+                                  }}
+                                />
+
+                                <Text style={{
+                                  color: 'white',
+                                  fontSize: 18,
+                                  textAlign: 'center'
+                                }}>
+                                  {item?.day?.avghumidity}%
+                                </Text>
+                              </View>
+
+                            </View>
+                          )
+                        })
+                      }
+
+
+                    </ScrollView>
+                  </View>
+                )}
+
+                {/* Quay lại màn hình xem thời tiết */}
+                {isKeyboardVisible && (
+                  <TouchableOpacity onPress={() => setShowSearch(!showSearch)} style={{ flex: 1 }}></TouchableOpacity>
+                )}
+
+              </ScrollView>
+
 
 
               {/* Phần tìm kiếm */}
@@ -406,6 +666,7 @@ const App = () => {
               </View>
 
             </View>
+
           )
         }
 
