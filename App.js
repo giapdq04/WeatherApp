@@ -14,8 +14,10 @@ const App = () => {
   const [weather, setWeather] = useState({})
   const [loading, setLoading] = useState(true)
 
-  const { current, location } = weather
+  const [currentHour, setCurrentHour] = useState(0)
 
+
+  const { current, location } = weather
 
   // trang thai ban phim
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
@@ -43,10 +45,23 @@ const App = () => {
     };
   }, []);
 
+  const getCurrentHour = () => {
+    const currentTime = new Intl.DateTimeFormat('en-US', {
+      hour: 'numeric',
+      hour12: false,
+      timeZone: 'Asia/Ho_Chi_Minh'
+    }).format(new Date());
+    setCurrentHour(parseInt(currentTime))
+    console.log('Current Time', currentHour);
+  }
+
+
+
 
   //lấy dữ liệu thời tiết khi mở ứng dụng
   useEffect(() => {
     fetchWeatherForecastData()
+    getCurrentHour()
   }, [])
 
 
@@ -354,9 +369,12 @@ const App = () => {
                       {
                         weather?.forecast?.forecastday[0]?.hour.map((item, index) => {
 
-                          let time = item?.time.slice(11, 13)
-                          let ampm = parseInt(time) >= 12 ? ' PM' : ' AM'
-                          let hour = parseInt(time) > 12 ? parseInt(time) - 12 : parseInt(time)
+                          let time = parseInt(item?.time.slice(11, 13))
+
+                          if (time < currentHour) {
+                            return null
+                          }
+
                           return (
                             <View
                               key={index}
@@ -382,7 +400,7 @@ const App = () => {
                                 fontSize: 18,
                                 textAlign: 'center'
                               }}>
-                                {hour}:00 {ampm}
+                                {time}:00
 
                               </Text>
                               <Text style={{
@@ -418,11 +436,14 @@ const App = () => {
                         })
                       }
 
-                      {/* {
-                        weather?.forecast?.forecastday?.map((item, index) => {
-                          let date = new Date(item?.date)
-                          let options = { weekday: 'long' }
-                          let dayName = date.toLocaleDateString('vi-VN', options)
+                      {
+                        weather?.forecast?.forecastday[1].hour?.map((item, index) => {
+                          // let time = parseInt(item?.time.slice(11, 16))
+                          let time = item?.time.slice(11, 13)
+                          if (time >= currentHour) {
+                            return null
+                          }
+
                           return (
                             <View
                               key={index}
@@ -436,7 +457,7 @@ const App = () => {
                                 width: 120
                               }}>
                               <Image
-                                source={weatherImages[item?.hour[0]?.condition?.text.trim().toLowerCase()] || weatherImages['other']}
+                                source={weatherImages[item?.condition?.text.trim().toLowerCase()] || weatherImages['other']}
                                 style={{
                                   width: 50,
                                   height: 50,
@@ -448,14 +469,15 @@ const App = () => {
                                 fontSize: 18,
                                 textAlign: 'center'
                               }}>
-                                {dayName}
+                                {time}:00
+
                               </Text>
                               <Text style={{
                                 color: 'white',
                                 fontSize: 18,
                                 textAlign: 'center'
                               }}>
-                                {item?.day?.maxtemp_c}&#176;/{item?.day?.mintemp_c}&#176;
+                                {item?.temp_c}&#176;
                               </Text>
                               <View style={{
                                 flexDirection: 'row',
@@ -474,14 +496,14 @@ const App = () => {
                                   fontSize: 18,
                                   textAlign: 'center'
                                 }}>
-                                  {item?.day?.avghumidity}%
+                                  {item?.humidity}%
                                 </Text>
                               </View>
 
                             </View>
                           )
                         })
-                      } */}
+                      }
 
 
                     </ScrollView>
