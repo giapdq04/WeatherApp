@@ -15,6 +15,8 @@ const App = () => {
   const [weather, setWeather] = useState({})
   const [loading, setLoading] = useState(true)
 
+  console.log(showSearch);
+
 
   const { current, location } = weather
 
@@ -79,11 +81,23 @@ const App = () => {
       })
   }
 
-  //xử lý tìm kiếm bằng phương pháp debounce
+  //xử lý tìm kiếm
+  // const handleSearch = (value) => {
+  //   if (value.length > 2) {
+
+  //     fetchLocations({ cityName: value })
+  //       .then(data => {
+  //         setLocation(data)
+  //       })
+  //       .catch(err => {
+  //         console.log('Error', err);
+  //       })
+
+  //   }
+  // }
+
   const handleSearch = debounce((value) => {
-    console.log('Value', value);
     if (value.length > 2) {
-      console.log('Tìm kiếm', value)
       fetchLocations({ cityName: value })
         .then(data => {
           setLocation(data)
@@ -602,7 +616,7 @@ const App = () => {
 
                 {/* Quay lại màn hình xem thời tiết */}
                 {isKeyboardVisible && (
-                  <TouchableOpacity onPress={() => setShowSearch(!showSearch)} style={{ flex: 1 }}></TouchableOpacity>
+                  <TouchableOpacity onPress={() => setShowSearch(false)} style={{ flex: 1 }}></TouchableOpacity>
                 )}
 
               </ScrollView>
@@ -623,14 +637,14 @@ const App = () => {
                 }]}>
 
                   {
-                    showSearch && (
+                    showSearch ? (
                       <TextInput
                         onChangeText={handleSearch}
                         placeholder='Search city'
                         placeholderTextColor={'white'}
                         style={st.searchInput}
                       />
-                    )
+                    ) : null
                   }
 
                   <TouchableOpacity
