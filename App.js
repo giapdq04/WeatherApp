@@ -14,8 +14,6 @@ const App = () => {
   const [weather, setWeather] = useState({})
   const [loading, setLoading] = useState(true)
 
-  const [currentHour, setCurrentHour] = useState(0)
-
 
   const { current, location } = weather
 
@@ -45,23 +43,12 @@ const App = () => {
     };
   }, []);
 
-  const getCurrentHour = () => {
-    const currentTime = new Intl.DateTimeFormat('en-US', {
-      hour: 'numeric',
-      hour12: false,
-      timeZone: 'Asia/Ho_Chi_Minh'
-    }).format(new Date());
-    setCurrentHour(parseInt(currentTime))
-    console.log('Current Time', currentHour);
-  }
-
 
 
 
   //lấy dữ liệu thời tiết khi mở ứng dụng
   useEffect(() => {
     fetchWeatherForecastData()
-    getCurrentHour()
   }, [])
 
 
@@ -370,6 +357,7 @@ const App = () => {
                         weather?.forecast?.forecastday[0]?.hour.map((item, index) => {
 
                           let time = parseInt(item?.time.slice(11, 13))
+                          let currentHour = current.last_updated.slice(11, 13)
 
                           if (time < currentHour) {
                             return null
@@ -440,6 +428,7 @@ const App = () => {
                         weather?.forecast?.forecastday[1].hour?.map((item, index) => {
                           // let time = parseInt(item?.time.slice(11, 16))
                           let time = item?.time.slice(11, 13)
+                          let currentHour = current.last_updated.slice(11, 13)
                           if (time >= currentHour) {
                             return null
                           }
