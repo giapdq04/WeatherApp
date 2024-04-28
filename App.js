@@ -1,4 +1,4 @@
-import { Image, ImageBackground, Keyboard, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, Image, ImageBackground, Keyboard, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import { fetchLocations, fetchWeatherForecast } from './src/api/weather';
@@ -6,6 +6,7 @@ import { weatherImages } from './src/images/WeatherImage';
 import * as Progress from 'react-native-progress';
 import { getData, storeData } from './src/cityStorage';
 import { ConditionTranslate } from './src/translate/condition';
+import { debounce } from 'lodash';
 
 const App = () => {
 
@@ -78,10 +79,11 @@ const App = () => {
       })
   }
 
-  //xử lý tìm kiếm
-  const handleSearch = (value) => {
+  //xử lý tìm kiếm bằng phương pháp debounce
+  const handleSearch = debounce((value) => {
+    console.log('Value', value);
     if (value.length > 2) {
-
+      console.log('Tìm kiếm', value)
       fetchLocations({ cityName: value })
         .then(data => {
           setLocation(data)
@@ -89,9 +91,8 @@ const App = () => {
         .catch(err => {
           console.log('Error', err);
         })
-
     }
-  }
+  }, 250);
 
   return (
     <View style={st.container}>
