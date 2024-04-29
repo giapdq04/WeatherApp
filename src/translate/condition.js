@@ -4,6 +4,7 @@ export const ConditionTranslate = {
     'patchy rain possible': 'Có thể mưa nhỏ',
     'patchy rain nearby': 'Mưa nhỏ xung quanh',
     'patchy light rain': 'Mưa nhỏ xung quanh',
+    'patchy light rain in area with thunder': 'Mưa nhỏ có sấm sét',
     'sunny': 'Nắng',
     'clear': 'Trời quang',
     'overcast': 'U ám',
@@ -15,8 +16,9 @@ export const ConditionTranslate = {
     'moderate or heavy freezing rain': 'Mưa lớn hoặc mưa lạnh vừa',
     'moderate or heavy rain shower': 'Mưa lớn hoặc mưa vừa',
     'moderate or heavy rain with thunder': 'Mưa lớn hoặc mưa vừa có sấm sét',
-    'mist': 'Sương mù',
+    'mist': 'Sương mù nhẹ',
     'light drizzle': 'Mưa phùn nhẹ',
     'thundery outbreaks in nearby': 'Sấm sét xung quanh',
-    'light rain shower': 'Mưa rào nhẹ'
+    'light rain shower': 'Mưa rào nhẹ',
+    'fog': 'Sương mù',
 }

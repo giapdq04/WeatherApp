@@ -4,6 +4,7 @@ export const weatherImages = {
     'patchy rain possible': require('./patchyrainposible.png'),
     'patchy rain nearby': require('./patchyrainposible.png'),
     'patchy light rain': require('./patchyrainposible.png'),
+    'patchy light rain in area with thunder': require('./heavyrain.png'),
     'sunny': require('./sunny.png'),
     'clear': require('./clear.png'),
     'overcast': require('./overcast.png'),
@@ -19,6 +20,7 @@ export const weatherImages = {
     'light drizzle': require('./lightdrizzle.png'),
     'thundery outbreaks in nearby': require('./thunderyoutbreaksinnearby.png'),
     'light rain shower': require('./lightrain.png'),
+    'fog': require('./mist.png'),
 
     'other': { uri: 'https://cdn-icons-png.flaticon.com/512/252/252035.png' }
 }
