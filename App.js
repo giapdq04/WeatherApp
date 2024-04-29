@@ -1,4 +1,4 @@
-import { Alert, Image, ImageBackground, Keyboard, RefreshControl, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Image, ImageBackground, Keyboard, RefreshControl, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import { fetchLocations, fetchWeatherForecast } from './src/api/weather';
@@ -55,6 +55,7 @@ const App = () => {
   const fetchWeatherForecastData = useCallback(
     async () => {
       try {
+        setLoading(true)
         let myCity = await getData('city')
         let cityName = myCity || 'Hanoi'
         const data = await fetchWeatherForecast({ cityName, days: '7' })
@@ -151,7 +152,7 @@ const App = () => {
                         fontSize: 30,
                         fontWeight: 'bold',
                       }}>
-                        {location?.name}{location?.localtime.slice(11, 16)}
+                        {location?.name}
                         <Text style={{
                           color: 'rgba(255, 255, 255, 0.5)',
                           fontSize: 20,
@@ -273,7 +274,7 @@ const App = () => {
                           fontSize: 18,
                           paddingLeft: 10
                         }}>
-                          {current?.uv} UV {current?.uv >= 11 ? 'Gắt' : (current?.uv >= 8 ? 'Rất Cao' : (current?.uv >= 6 ? 'Cao' : (current?.uv >= 3 ? 'Trung Bình' : 'Thấp')))}
+                          {current?.uv} UV: {current?.uv >= 11 ? 'Gắt' : (current?.uv >= 8 ? 'Rất Cao' : (current?.uv >= 6 ? 'Cao' : (current?.uv >= 3 ? 'Trung Bình' : 'Thấp')))}
                         </Text>
                       </View>
                     </View>
