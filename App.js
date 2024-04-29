@@ -1,5 +1,5 @@
-import { Alert, Image, ImageBackground, Keyboard, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { Alert, Image, ImageBackground, Keyboard, RefreshControl, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import { fetchLocations, fetchWeatherForecast } from './src/api/weather';
 import { weatherImages } from './src/images/WeatherImage';
@@ -52,16 +52,23 @@ const App = () => {
 
 
   //lấy dữ liệu thời tiết
-  const fetchWeatherForecastData = async () => {
-    let myCity = await getData('city')
-    let cityName = myCity || 'Hanoi'
-    fetchWeatherForecast({ cityName, days: '7' })
-      .then(data => {
+  const fetchWeatherForecastData = useCallback(
+    async () => {
+      try {
+        let myCity = await getData('city')
+        let cityName = myCity || 'Hanoi'
+        const data = await fetchWeatherForecast({ cityName, days: '7' })
         setWeather(data)
         setLoading(false)
-        // console.log('Data', data);
-      })
-  }
+        // console.log('Loading thành công');
+
+      } catch (error) {
+        console.error('Failed to fetch weather forecast:', error)
+      }
+    },
+    [],
+  )
+
 
   //xử lý chọn địa điểm
   const handleLocation = (loc) => {
@@ -116,7 +123,14 @@ const App = () => {
               style={{
                 flex: 1
               }}>
-              <ScrollView>
+              <ScrollView
+                refreshControl={
+                  <RefreshControl
+                    refreshing={loading}
+                    onRefresh={fetchWeatherForecastData}
+                  />
+                }
+              >
 
                 {/* Phần dự báo thời tiết */}
                 {!isKeyboardVisible && (
@@ -137,7 +151,7 @@ const App = () => {
                         fontSize: 30,
                         fontWeight: 'bold',
                       }}>
-                        {location?.name}
+                        {location?.name}{location?.localtime.slice(11, 16)}
                         <Text style={{
                           color: 'rgba(255, 255, 255, 0.5)',
                           fontSize: 20,
@@ -152,7 +166,6 @@ const App = () => {
 
                       <Image
                         source={weatherImages[current?.condition?.text.trim().toLowerCase()] || weatherImages['other']}
-                        // source={{ uri: 'https:' + current?.condition?.icon }}
 
                         style={{
                           width: 200,
