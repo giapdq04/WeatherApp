@@ -3,6 +3,7 @@ export const ConditionTranslate = {
     'moderate rain': 'Mưa vừa',
     'patchy rain possible': 'Có thể mưa nhỏ',
     'patchy rain nearby': 'Mưa nhỏ xung quanh',
+    'patchy light rain': 'Mưa nhỏ xung quanh',
     'sunny': 'Nắng',
     'clear': 'Trời quang',
     'overcast': 'U ám',
