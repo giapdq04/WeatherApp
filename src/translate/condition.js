@@ -5,6 +5,7 @@ export const ConditionTranslate = {
     'patchy rain nearby': 'Mưa nhỏ xung quanh',
     'patchy light rain': 'Mưa nhỏ xung quanh',
     'patchy light rain in area with thunder': 'Mưa nhỏ có sấm sét',
+    'patchy light drizzle': 'Mưa phùn nhỏ',
     'sunny': 'Nắng',
     'clear': 'Trời quang',
     'overcast': 'U ám',
