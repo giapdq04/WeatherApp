@@ -15,8 +15,6 @@ const App = () => {
   const [weather, setWeather] = useState({})
   const [loading, setLoading] = useState(true)
 
-  console.log(showSearch);
-
 
   const { current, location } = weather
 
@@ -45,8 +43,6 @@ const App = () => {
       keyboardDidHideListener.remove();
     };
   }, []);
-
-
 
 
   //lấy dữ liệu thời tiết khi mở ứng dụng
