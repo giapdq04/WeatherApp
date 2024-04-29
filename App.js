@@ -78,20 +78,6 @@ const App = () => {
   }
 
   //xử lý tìm kiếm
-  // const handleSearch = (value) => {
-  //   if (value.length > 2) {
-
-  //     fetchLocations({ cityName: value })
-  //       .then(data => {
-  //         setLocation(data)
-  //       })
-  //       .catch(err => {
-  //         console.log('Error', err);
-  //       })
-
-  //   }
-  // }
-
   const handleSearch = debounce((value) => {
     if (value.length > 2) {
       fetchLocations({ cityName: value })
@@ -144,6 +130,7 @@ const App = () => {
                       justifyContent: 'center',
                       alignItems: 'center',
                       height: 150,
+                      width: '90%',
                     }}>
                       <Text style={{
                         color: 'white',
