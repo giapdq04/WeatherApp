@@ -87,7 +87,7 @@ const App = () => {
 
   //xử lý tìm kiếm
   const handleSearch = debounce((value) => {
-    if (value.length > 2) {
+    if (value.trim().length !== 0) {
       fetchLocations({ cityName: value })
         .then(data => {
           setLocation(data)
@@ -97,6 +97,13 @@ const App = () => {
         })
     }
   }, 250);
+
+  const convertToDayOfWeek = (day) => {
+    let date = new Date(day)
+    let options = { weekday: 'long' }
+    let dayName = date.toLocaleDateString('vi-VN', options)
+    return dayName
+  }
 
   return (
     <View style={st.container}>
@@ -112,11 +119,7 @@ const App = () => {
           loading ? (
 
             // hiệu ứng loading
-            <View style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}>
+            <View style={st.loading}>
               <Progress.CircleSnail thickness={10} size={100} color={'#0bb3b2'} />
             </View>
           ) : (
@@ -136,27 +139,11 @@ const App = () => {
                 {/* Phần dự báo thời tiết */}
                 {!isKeyboardVisible && (
                   <View
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      flex: 1,
-                    }}>
-                    <View style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      height: 150,
-                      width: '90%',
-                    }}>
-                      <Text style={{
-                        color: 'white',
-                        fontSize: 30,
-                        fontWeight: 'bold',
-                      }}>
+                    style={st.loading}>
+                    <View style={st.title}>
+                      <Text style={st.city}>
                         {location?.name}
-                        <Text style={{
-                          color: 'rgba(255, 255, 255, 0.5)',
-                          fontSize: 20,
-                        }}>, {location?.country}</Text>
+                        <Text style={st.country}>, {location?.country}</Text>
                       </Text>
                     </View>
 
@@ -168,163 +155,92 @@ const App = () => {
                       <Image
                         source={weatherImages[current?.condition?.text.trim().toLowerCase()] || weatherImages['other']}
 
-                        style={{
-                          width: 200,
-                          height: 200,
-                          resizeMode: 'contain'
-                        }}
+                        style={st.currentWeatherImage}
                       />
                     </View>
 
                     {/* Nhiệt độ */}
-                    <View style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      height: 150,
-                    }}>
-                      <Text style={{
-                        color: 'white',
-                        fontSize: 60,
-                        fontWeight: 'bold',
-                      }}>
+                    <View style={st.heat}>
+                      <Text style={st.currentHeat}>
                         {current?.temp_c}&#176;
                       </Text>
 
-                      <Text style={{
-                        color: 'white',
-                        fontSize: 20
-                      }}>
+                      <Text style={st.secondaryHeat}>
                         {weather?.forecast?.forecastday[0]?.day?.maxtemp_c}&#176; / {weather?.forecast?.forecastday[0]?.day?.mintemp_c}&#176;
                         Cảm giác {current?.feelslike_c}&#176;
                       </Text>
 
-                      <Text style={{
-                        color: 'white',
-                        fontSize: 30,
-                      }}>
+                      <Text style={st.condition}>
                         {ConditionTranslate[current?.condition?.text.trim().toLowerCase()] || current?.condition?.text}
+                      </Text>
+
+                      <Text style={st.secondaryHeat}>
+                        {/* {current?.last_updated} */}
+                        {convertToDayOfWeek(location?.localtime)} {location?.localtime.slice(11, 16)}
+
                       </Text>
                     </View>
 
                     {/* Các chỉ số khác */}
-                    <View style={{
-                      flexDirection: 'row',
-                      height: 80,
-                      width: '90%',
-                    }}>
-                      <View style={{
-                        flex: 1,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}>
+                    <View style={st.otherIndicators}>
+
+                      {/* Tốc độ gió */}
+                      <View style={st.indicators}>
                         <Image
                           source={require('./src/images/wind.png')}
-                          style={{
-                            width: 30,
-                            height: 30,
-                          }}
+                          style={st.indicatorImage}
                         />
-                        <Text style={{
-                          color: 'white',
-                          fontSize: 18,
-                          paddingLeft: 10
-                        }}>
+                        <Text style={st.indicatorNumber}>
                           {current?.wind_kph} km/h
                         </Text>
                       </View>
 
-                      <View style={{
-                        flex: 1,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}>
+                      {/* Độ ẩm */}
+                      <View style={st.indicators}>
                         <Image
                           source={require('./src/images/drop.png')}
-                          style={{
-                            width: 30,
-                            height: 30,
-                          }}
+                          style={st.indicatorImage}
                         />
-                        <Text style={{
-                          color: 'white',
-                          fontSize: 18,
-                          paddingLeft: 10
-                        }}>
+                        <Text style={st.indicatorNumber}>
                           {current?.humidity}%
                         </Text>
                       </View>
 
-                      <View style={{
-                        flex: 1,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}>
+                      {/* Chỉ số UV */}
+                      <View style={st.indicators}>
                         <Image
                           source={require('./src/images/sunny.png')}
-                          style={{
-                            width: 30,
-                            height: 30,
-                          }}
+                          style={st.indicatorImage}
                         />
-                        <Text style={{
-                          color: 'white',
-                          fontSize: 18,
-                          paddingLeft: 10
-                        }}>
+                        <Text style={[st.indicatorNumber, { width: 94 }]}>
                           {current?.uv} UV: {current?.uv >= 11 ? 'Gắt' : (current?.uv >= 8 ? 'Rất Cao' : (current?.uv >= 6 ? 'Cao' : (current?.uv >= 3 ? 'Trung Bình' : 'Thấp')))}
                         </Text>
                       </View>
                     </View>
 
                     {/* Các chỉ số mặt trời lặn và mọc */}
-                    <View style={{
-                      height: 80,
-                      flexDirection: 'row',
-                    }}>
+                    <View style={st.indicatorSun}>
 
-                      <View style={{
-                        flex: 1,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}>
+                      {/* Bình minh */}
+                      <View style={st.indicators}>
                         <Image
                           source={require('./src/icons/sun.png')}
-                          style={{
-                            width: 30,
-                            height: 30,
-                          }}
+                          style={st.indicatorImage}
                         />
-                        <Text style={{
-                          color: 'white',
-                          fontSize: 18,
-                          paddingLeft: 10
-                        }}>
+                        <Text style={st.indicatorNumber}>
                           {weather?.forecast?.forecastday[0]?.astro?.sunrise}
                         </Text>
                       </View>
 
-                      <View style={{
-                        flex: 1,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}>
+                      {/* Hoàng hôn */}
+                      <View style={st.indicators}>
                         <Image
                           source={require('./src/icons/sunset.png')}
-                          style={{
-                            width: 40,
-                            height: 40,
-                          }}
+                          style={
+                            st.sunsetImage
+                          }
                         />
-                        <Text style={{
-                          color: 'white',
-                          fontSize: 18,
-                          paddingLeft: 10
-                        }}>
+                        <Text style={st.indicatorNumber}>
                           {weather?.forecast?.forecastday[0]?.astro?.sunset}
                         </Text>
                       </View>
@@ -438,7 +354,6 @@ const App = () => {
 
                       {
                         weather?.forecast?.forecastday[1].hour?.map((item, index) => {
-                          // let time = parseInt(item?.time.slice(11, 16))
                           let time = item?.time.slice(11, 13)
                           let currentHour = current.last_updated.slice(11, 13)
                           if (time >= currentHour) {
@@ -544,9 +459,6 @@ const App = () => {
 
                       {
                         weather?.forecast?.forecastday?.map((item, index) => {
-                          let date = new Date(item?.date)
-                          let options = { weekday: 'long' }
-                          let dayName = date.toLocaleDateString('vi-VN', options)
                           return (
                             <View
                               key={index}
@@ -571,7 +483,7 @@ const App = () => {
                                 fontSize: 18,
                                 textAlign: 'center'
                               }}>
-                                {dayName}
+                                {convertToDayOfWeek(item?.date)}
                               </Text>
                               <Text style={{
                                 color: 'white',
@@ -732,5 +644,87 @@ const st = StyleSheet.create({
     borderRadius: 50,
     position: 'absolute',
     right: 0
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  title: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 150,
+    width: '90%',
+  },
+  city: {
+    color: 'white',
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
+
+  country: {
+    color: 'rgba(255, 255, 255, 0.5)',
+    fontSize: 20,
+  },
+
+  currentWeatherImage: {
+    width: 200,
+    height: 200,
+    resizeMode: 'contain'
+  },
+
+  heat: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 150,
+  },
+
+  currentHeat: {
+    color: 'white',
+    fontSize: 60,
+    fontWeight: 'bold',
+  },
+
+  secondaryHeat: {
+    color: 'white',
+    fontSize: 20
+  },
+
+  condition: {
+    color: 'white',
+    fontSize: 30,
+  },
+
+  otherIndicators: {
+    flexDirection: 'row',
+    height: 80,
+    width: '90%',
+  },
+
+  indicators: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+
+  indicatorImage: {
+    width: 30,
+    height: 30,
+  },
+
+  indicatorNumber: {
+    color: 'white',
+    fontSize: 18,
+    paddingLeft: 10
+  },
+  indicatorSun: {
+    height: 80,
+    flexDirection: 'row',
+  },
+
+  sunsetImage: {
+    width: 40,
+    height: 40,
   }
 })
