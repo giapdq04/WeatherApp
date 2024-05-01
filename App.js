@@ -175,7 +175,6 @@ const App = () => {
                       </Text>
 
                       <Text style={st.secondaryHeat}>
-                        {/* {current?.last_updated} */}
                         {convertToDayOfWeek(location?.localtime)} {location?.localtime.slice(11, 16)}
 
                       </Text>
@@ -246,38 +245,24 @@ const App = () => {
                       </View>
                     </View>
 
-
-
                   </View>
                 )}
 
                 {/* Dự báo những giờ tiếp theo */}
                 {!isKeyboardVisible && (
-                  <View style={{
-                    width: '90%',
-                    alignSelf: 'center',
-                    marginBottom: 20
-                  }}>
+                  <View style={st.forecastNextHours}>
 
                     <View style={{
                       flexDirection: 'row'
                     }}>
                       <FontAwesome6 name='clock' size={20} color='white' />
-                      <Text style={{
-                        color: 'white',
-                        fontSize: 18,
-                        paddingLeft: 10
-
-                      }}>
+                      <Text style={st.forecastNextHoursTitle}>
                         Những giờ tiếp theo
                       </Text>
                     </View>
                     <ScrollView
                       horizontal
-                      contentContainerStyle={{
-                        paddingHorizontal: 15,
-                        paddingVertical: 10,
-                      }}
+                      contentContainerStyle={st.forecastNextHoursBar}
                       showsHorizontalScrollIndicator={false}
                     >
 
@@ -294,36 +279,15 @@ const App = () => {
                           return (
                             <View
                               key={index}
-                              style={{
-                                backgroundColor: 'rgba(110, 131, 133,0.5)',
-                                borderRadius: 30,
-                                marginRight: 10,
-                                alignItems: 'center',
-                                justifyContent: 'space-evenly',
-                                height: 150,
-                                width: 120
-                              }}>
+                              style={st.forecastHourCard}>
                               <Image
                                 source={weatherImages[item?.condition?.text.trim().toLowerCase()] || weatherImages['other']}
-                                style={{
-                                  width: 50,
-                                  height: 50,
-                                  resizeMode: 'contain'
-                                }}
+                                style={st.cardImage}
                               />
-                              <Text style={{
-                                color: 'white',
-                                fontSize: 18,
-                                textAlign: 'center'
-                              }}>
+                              <Text style={st.forecastHour}>
                                 {time}:00
-
                               </Text>
-                              <Text style={{
-                                color: 'white',
-                                fontSize: 18,
-                                textAlign: 'center'
-                              }}>
+                              <Text style={st.hourHeat}>
                                 {item?.temp_c}&#176;
                               </Text>
                               <View style={{
@@ -332,17 +296,10 @@ const App = () => {
 
                                 <Image
                                   source={require('./src/icons/drop.png')}
-                                  style={{
-                                    width: 20,
-                                    height: 20,
-                                  }}
+                                  style={st.humidityImage}
                                 />
 
-                                <Text style={{
-                                  color: 'white',
-                                  fontSize: 18,
-                                  textAlign: 'center'
-                                }}>
+                                <Text style={st.humidityPercent}>
                                   {item?.humidity}%
                                 </Text>
                               </View>
@@ -363,36 +320,15 @@ const App = () => {
                           return (
                             <View
                               key={index}
-                              style={{
-                                backgroundColor: 'rgba(110, 131, 133,0.5)',
-                                borderRadius: 30,
-                                marginRight: 10,
-                                alignItems: 'center',
-                                justifyContent: 'space-evenly',
-                                height: 150,
-                                width: 120
-                              }}>
+                              style={st.forecastHourCard}>
                               <Image
                                 source={weatherImages[item?.condition?.text.trim().toLowerCase()] || weatherImages['other']}
-                                style={{
-                                  width: 50,
-                                  height: 50,
-                                  resizeMode: 'contain'
-                                }}
+                                style={st.cardImage}
                               />
-                              <Text style={{
-                                color: 'white',
-                                fontSize: 18,
-                                textAlign: 'center'
-                              }}>
+                              <Text style={st.forecastHour}>
                                 {time}:00
-
                               </Text>
-                              <Text style={{
-                                color: 'white',
-                                fontSize: 18,
-                                textAlign: 'center'
-                              }}>
+                              <Text style={st.hourHeat}>
                                 {item?.temp_c}&#176;
                               </Text>
                               <View style={{
@@ -401,17 +337,10 @@ const App = () => {
 
                                 <Image
                                   source={require('./src/icons/drop.png')}
-                                  style={{
-                                    width: 20,
-                                    height: 20,
-                                  }}
+                                  style={st.humidityImage}
                                 />
 
-                                <Text style={{
-                                  color: 'white',
-                                  fontSize: 18,
-                                  textAlign: 'center'
-                                }}>
+                                <Text style={st.humidityPercent}>
                                   {item?.humidity}%
                                 </Text>
                               </View>
@@ -429,31 +358,19 @@ const App = () => {
 
                 {/* Dự báo những ngày tiếp theo */}
                 {!isKeyboardVisible && (
-                  <View style={{
-                    width: '90%',
-                    alignSelf: 'center',
-                    marginBottom: 20
-                  }}>
+                  <View style={st.forecastNextDays}>
 
                     <View style={{
                       flexDirection: 'row'
                     }}>
                       <FontAwesome6 name='calendar-days' size={20} color='white' />
-                      <Text style={{
-                        color: 'white',
-                        fontSize: 18,
-                        paddingLeft: 10
-
-                      }}>
+                      <Text style={st.forecastNextDaysTitle}>
                         Những ngày tiếp theo
                       </Text>
                     </View>
                     <ScrollView
                       horizontal
-                      contentContainerStyle={{
-                        paddingHorizontal: 15,
-                        paddingVertical: 10,
-                      }}
+                      contentContainerStyle={st.forecastNextDaysBar}
                       showsHorizontalScrollIndicator={false}
                     >
 
@@ -462,34 +379,15 @@ const App = () => {
                           return (
                             <View
                               key={index}
-                              style={{
-                                backgroundColor: 'rgba(110, 131, 133,0.5)',
-                                borderRadius: 30,
-                                marginRight: 10,
-                                alignItems: 'center',
-                                justifyContent: 'space-evenly',
-                                height: 150,
-                                width: 120
-                              }}>
+                              style={st.forecastHourCard}>
                               <Image
                                 source={weatherImages[item?.day?.condition?.text.trim().toLowerCase()] || weatherImages['other']}
-                                style={{
-                                  width: 50,
-                                  height: 50
-                                }}
+                                style={st.cardImage}
                               />
-                              <Text style={{
-                                color: 'white',
-                                fontSize: 18,
-                                textAlign: 'center'
-                              }}>
+                              <Text style={st.forecastDay}>
                                 {convertToDayOfWeek(item?.date)}
                               </Text>
-                              <Text style={{
-                                color: 'white',
-                                fontSize: 18,
-                                textAlign: 'center'
-                              }}>
+                              <Text style={st.dayHeat}>
                                 {item?.day?.maxtemp_c}&#176;/{item?.day?.mintemp_c}&#176;
                               </Text>
                               <View style={{
@@ -498,17 +396,10 @@ const App = () => {
 
                                 <Image
                                   source={require('./src/icons/drop.png')}
-                                  style={{
-                                    width: 20,
-                                    height: 20,
-                                  }}
+                                  style={st.humidityImage}
                                 />
 
-                                <Text style={{
-                                  color: 'white',
-                                  fontSize: 18,
-                                  textAlign: 'center'
-                                }}>
+                                <Text style={st.humidityPercent}>
                                   {item?.day?.avghumidity}%
                                 </Text>
                               </View>
@@ -533,13 +424,7 @@ const App = () => {
 
 
               {/* Phần tìm kiếm */}
-              <View style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-              }}>
+              <View style={st.search}>
                 {/* search bar */}
                 <View style={[st.searchbar, {
                   backgroundColor: showSearch ? 'rgba(110, 131, 133,0.3)' : 'transparent',
@@ -567,31 +452,16 @@ const App = () => {
 
                 {
                   locations.length > 0 && showSearch ? (
-                    <View style={{
-                      backgroundColor: 'rgb(238, 243, 250)',
-                      width: '90%',
-                      alignSelf: 'center',
-                      borderRadius: 20,
-                      paddingHorizontal: 20,
-                      marginTop: 10
-                    }}>
+                    <View style={st.location}>
                       {
                         locations.map((loc, index) => (
                           <TouchableOpacity
                             onPress={() => handleLocation(loc)}
                             key={index}
-                            style={{
-                              paddingVertical: 10,
-                              borderBottomWidth: 1,
-                              borderBottomColor: 'rgba(0,0,0,0.1)',
-                              flexDirection: 'row',
-                            }}
+                            style={st.locationBtn}
                           >
                             <FontAwesome6 name='location-dot' size={20} color='rgba(110, 131, 133,0.5)' />
-                            <Text style={{
-                              fontSize: 20,
-                              paddingLeft: 10,
-                            }}>{loc?.name}, {loc?.country}</Text>
+                            <Text style={st.cityName}>{loc?.name}, {loc?.country}</Text>
                           </TouchableOpacity>
                         ))
                       }
@@ -604,9 +474,6 @@ const App = () => {
 
           )
         }
-
-
-
 
       </ImageBackground >
 
@@ -726,5 +593,134 @@ const st = StyleSheet.create({
   sunsetImage: {
     width: 40,
     height: 40,
+  },
+
+  forecastNextHours: {
+    width: '90%',
+    alignSelf: 'center',
+    marginBottom: 20
+  },
+
+  forecastNextHoursTitle: {
+    color: 'white',
+    fontSize: 18,
+    paddingLeft: 10
+  },
+  forecastNextHoursBar: {
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+  },
+  forecastHourCard: {
+    backgroundColor: 'rgba(110, 131, 133,0.5)',
+    borderRadius: 30,
+    marginRight: 10,
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    height: 150,
+    width: 120
+  },
+
+  cardImage: {
+    width: 50,
+    height: 50,
+    resizeMode: 'contain'
+  },
+
+  forecastHour: {
+    color: 'white',
+    fontSize: 18,
+    textAlign: 'center'
+  },
+
+  hourHeat: {
+    color: 'white',
+    fontSize: 18,
+    textAlign: 'center'
+  },
+
+  humidityImage: {
+    width: 20,
+    height: 20,
+  },
+
+  humidityPercent: {
+    color: 'white',
+    fontSize: 18,
+    textAlign: 'center'
+  },
+
+  forecastNextDays: {
+    width: '90%',
+    alignSelf: 'center',
+    marginBottom: 20
+  },
+
+  forecastNextDaysTitle: {
+    color: 'white',
+    fontSize: 18,
+    paddingLeft: 10
+  },
+
+  forecastNextDaysBar: {
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+  },
+
+  forecastDayCard: {
+    backgroundColor: 'rgba(110, 131, 133,0.5)',
+    borderRadius: 30,
+    marginRight: 10,
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    height: 150,
+    width: 120
+  },
+
+  forecastDay: {
+    color: 'white',
+    fontSize: 18,
+    textAlign: 'center'
+  },
+
+  dayHeat: {
+    color: 'white',
+    fontSize: 18,
+    textAlign: 'center'
+  },
+
+  search: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+
+  location: {
+    backgroundColor: 'rgb(238, 243, 250)',
+    width: '90%',
+    alignSelf: 'center',
+    borderRadius: 20,
+    paddingHorizontal: 20,
+    marginTop: 10
+  },
+
+  locationBtn: {
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(0,0,0,0.1)',
+    flexDirection: 'row',
+  },
+
+  cityName: {
+    fontSize: 20,
+    paddingLeft: 10,
   }
+
+
+
+
+
+
+
 })
