@@ -5,7 +5,7 @@ import { fetchLocations, fetchWeatherForecast } from './src/api/weather';
 import { weatherImages } from './src/images/WeatherImage';
 import * as Progress from 'react-native-progress';
 import { getData, storeData } from './src/cityStorage';
-import { ConditionTranslate } from './src/translate/condition';
+import { WeatherTranslate } from './src/translate/condition';
 import { debounce } from 'lodash';
 
 const App = () => {
@@ -85,7 +85,7 @@ const App = () => {
       })
   }
 
-  //xử lý tìm kiếm
+  //xử lý tìm kiếm bằng debounce
   const handleSearch = debounce((value) => {
     if (value.trim().length !== 0) {
       fetchLocations({ cityName: value })
@@ -98,11 +98,31 @@ const App = () => {
     }
   }, 250);
 
+  //chuyển đổi ngày thành thứ
   const convertToDayOfWeek = (day) => {
     let date = new Date(day)
     let options = { weekday: 'long' }
     let dayName = date.toLocaleDateString('vi-VN', options)
     return dayName
+  }
+
+  // chuyển đổi thành kiểu 24h
+  const convertTo24h = (time) => {
+    let gio = parseInt(time.slice(0, 2))
+    let phut = time.slice(3, 5)
+    return `${gio + 12}:${phut}`
+  }
+
+  //lấy ảnh thời tiết
+  const getWeatherImage = (condition) => {
+    const text = condition.trim().toLowerCase()
+    return weatherImages(text)
+  }
+
+  //dịch điều kiện thời tiết
+  const weatherTranslate = (condition) => {
+    const text = condition.trim().toLowerCase()
+    return WeatherTranslate(text)
   }
 
   return (
@@ -153,7 +173,7 @@ const App = () => {
                     }}>
 
                       <Image
-                        source={weatherImages[current?.condition?.text.trim().toLowerCase()] || weatherImages['other']}
+                        source={getWeatherImage(current?.condition?.text)}
 
                         style={st.currentWeatherImage}
                       />
@@ -171,7 +191,7 @@ const App = () => {
                       </Text>
 
                       <Text style={st.condition}>
-                        {ConditionTranslate[current?.condition?.text.trim().toLowerCase()] || current?.condition?.text}
+                        {weatherTranslate(current?.condition?.text)}
                       </Text>
 
                       <Text style={st.secondaryHeat}>
@@ -227,7 +247,7 @@ const App = () => {
                           style={st.indicatorImage}
                         />
                         <Text style={st.indicatorNumber}>
-                          {weather?.forecast?.forecastday[0]?.astro?.sunrise}
+                          {weather?.forecast?.forecastday[0]?.astro?.sunrise.slice(0, 5)}
                         </Text>
                       </View>
 
@@ -240,7 +260,8 @@ const App = () => {
                           }
                         />
                         <Text style={st.indicatorNumber}>
-                          {weather?.forecast?.forecastday[0]?.astro?.sunset}
+
+                          {convertTo24h(weather?.forecast?.forecastday[0]?.astro?.sunset)}
                         </Text>
                       </View>
                     </View>
@@ -281,7 +302,7 @@ const App = () => {
                               key={index}
                               style={st.forecastHourCard}>
                               <Image
-                                source={weatherImages[item?.condition?.text.trim().toLowerCase()] || weatherImages['other']}
+                                source={getWeatherImage(item?.condition?.text)}
                                 style={st.cardImage}
                               />
                               <Text style={st.forecastHour}>
@@ -322,7 +343,7 @@ const App = () => {
                               key={index}
                               style={st.forecastHourCard}>
                               <Image
-                                source={weatherImages[item?.condition?.text.trim().toLowerCase()] || weatherImages['other']}
+                                source={getWeatherImage(item?.condition?.text)}
                                 style={st.cardImage}
                               />
                               <Text style={st.forecastHour}>
@@ -381,7 +402,7 @@ const App = () => {
                               key={index}
                               style={st.forecastHourCard}>
                               <Image
-                                source={weatherImages[item?.day?.condition?.text.trim().toLowerCase()] || weatherImages['other']}
+                                source={getWeatherImage(item?.day?.condition?.text)}
                                 style={st.cardImage}
                               />
                               <Text style={st.forecastDay}>
