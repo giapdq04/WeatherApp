@@ -1,27 +1,41 @@
-export const weatherImages = {
-    'partly cloudy': require('./partlycloudy.png'),
-    'moderate rain': require('./moderaterain.png'),
-    'patchy rain possible': require('./patchyrainposible.png'),
-    'patchy rain nearby': require('./patchyrainposible.png'),
-    'patchy light rain': require('./patchyrainposible.png'),
-    'patchy light rain in area with thunder': require('./heavyrain.png'),
-    'patchy light drizzle': require('./lightrain.png'),
-    'sunny': require('./sunny.png'),
-    'clear': require('./clear.png'),
-    'overcast': require('./overcast.png'),
-    'cloudy': require('./cloud.png'),
-    'light rain': require('./lightrain.png'),
-    'moderate rain at times': require('./moderaterain.png'),
-    'heavy rain': require('./heavyrain.png'),
-    'heavy rain at times': require('./heavyrain.png'),
-    'moderate or heavy freezing rain': require('./heavyrain.png'),
-    'moderate or heavy rain shower': require('./heavyrain.png'),
-    'moderate or heavy rain with thunder': require('./heavyrain.png'),
-    'mist': require('./mist.png'),
-    'light drizzle': require('./lightrain.png'),
-    'thundery outbreaks in nearby': require('./thunderyoutbreaksinnearby.png'),
-    'light rain shower': require('./lightrain.png'),
-    'fog': require('./mist.png'),
 
-    'other': { uri: 'https://cdn-icons-png.flaticon.com/512/252/252035.png' }
+
+export const weatherImages = (weather) => {
+    switch (weather) {
+        case 'partly cloudy':
+            return require('./partlycloudy.png');
+        case 'moderate rain':
+            return require('./moderaterain.png');
+        case 'patchy rain possible':
+        case 'patchy rain nearby':
+        case 'patchy light rain':
+            return require('./patchyrainposible.png');
+        case 'patchy light rain in area with thunder':
+        case 'moderate or heavy rain shower':
+        case 'moderate or heavy rain with thunder':
+            return require('./heavyrain.png');
+        case 'sunny':
+            return require('./sunny.png');
+        case 'clear':
+            return require('./clear.png');
+        case 'overcast':
+            return require('./overcast.png');
+        case 'cloudy':
+            return require('./cloud.png');
+        case 'light rain':
+        case 'light drizzle':
+        case 'light rain shower':
+            return require('./lightrain.png');
+        case 'heavy rain':
+        case 'heavy rain at times':
+        case 'moderate or heavy freezing rain':
+            return require('./heavyrain.png');
+        case 'mist':
+        case 'fog':
+            return require('./mist.png');
+        case 'thundery outbreaks in nearby':
+            return require('./thunderyoutbreaksinnearby.png');
+        default:
+            return { uri: 'https://cdn-icons-png.flaticon.com/512/252/252035.png' };
+    }
 }
