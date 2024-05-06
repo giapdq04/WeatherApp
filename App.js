@@ -581,6 +581,7 @@ const st = StyleSheet.create({
   condition: {
     color: 'white',
     fontSize: 30,
+    textAlign: 'center'
   },
 
   otherIndicators: {
