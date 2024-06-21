@@ -287,6 +287,7 @@ const App = () => {
                       showsHorizontalScrollIndicator={false}
                     >
 
+                      {/* những giờ tiếp theo theo đến 23 */}
                       {
                         weather?.forecast?.forecastday[0]?.hour.map((item, index) => {
 
@@ -330,6 +331,7 @@ const App = () => {
                         })
                       }
 
+                      {/* bắt đầu từ 0h ngày hôm sau đến trước giờ hiện tại 1h */}
                       {
                         weather?.forecast?.forecastday[1].hour?.map((item, index) => {
                           let time = item?.time.slice(11, 13)
@@ -378,6 +380,7 @@ const App = () => {
 
 
                 {/* Dự báo những ngày tiếp theo */}
+                {/* bản free chỉ dự báo được 3 ngày thay vì 7 ngày */}
                 {!isKeyboardVisible && (
                   <View style={st.forecastNextDays}>
 
