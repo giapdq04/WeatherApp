@@ -2,7 +2,6 @@
 // weatherapi.com
 import axios from "axios"
 import { apiKey } from "./api"
-
 const forecastEndpoint = params => `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${params.cityName}&days=${params.days}`
 
 const locationsEndpoint = params => `https://api.weatherapi.com/v1/search.json?key=${apiKey}&q=${params.cityName}`
