@@ -16,7 +16,7 @@ const App = () => {
   const [loading, setLoading] = useState(true)
 
 
-  const { current, location } = weather
+  const { current, location } = weather || {};
 
   // trang thai ban phim
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
@@ -161,10 +161,12 @@ const App = () => {
                   <View
                     style={st.loading}>
                     <View style={st.title}>
-                      <Text style={st.city}>
-                        {location?.name}
-                        <Text style={st.country}>, {location?.country}</Text>
-                      </Text>
+                      {location?.name && (
+                        <Text style={st.city}>
+                          {location.name}
+                          <Text style={st.country}>, {location.country}</Text>
+                        </Text>
+                      )}
                     </View>
 
                     {/* Ảnh thời tiết */}
@@ -181,14 +183,17 @@ const App = () => {
 
                     {/* Nhiệt độ */}
                     <View style={st.heat}>
-                      <Text style={st.currentHeat}>
-                        {current?.temp_c}&#176;
-                      </Text>
-
-                      <Text style={st.secondaryHeat}>
-                        {weather?.forecast?.forecastday[0]?.day?.maxtemp_c}&#176; / {weather?.forecast?.forecastday[0]?.day?.mintemp_c}&#176;
-                        Cảm giác {current?.feelslike_c}&#176;
-                      </Text>
+                      {current?.temp_c && (
+                        <Text style={st.currentHeat}>
+                          {current.temp_c}&#176;
+                        </Text>
+                      )}
+                      {current?.feelslike_c && (
+                        <Text style={st.secondaryHeat}>
+                          {weather?.forecast?.forecastday[0]?.day?.maxtemp_c}&#176; / {weather?.forecast?.forecastday[0]?.day?.mintemp_c}&#176;
+                          Cảm giác {current.feelslike_c}&#176;
+                        </Text>
+                      )}
 
                       <Text style={st.condition}>
                         {weatherTranslate(current?.condition?.text)}
